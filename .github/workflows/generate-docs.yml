@@ -4,7 +4,7 @@
 ## 📄 Код для `.github/workflows/generate-docs.yml`
 
 
-```yaml
+
 name: Generate Documentation
 
 on:
