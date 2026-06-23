@@ -1,0 +1,40 @@
+
+---
+
+## 📄 Код для `.github/workflows/generate-docs.yml`
+
+
+```yaml
+name: Generate Documentation
+
+on:
+  workflow_dispatch:  # Ручной запуск
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Run documentation generator
+        run: python generate_docs.py
+      
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/ README.md
+          git diff --staged --quiet || git commit -m "🤖 Auto-generate documentation"
+          git push
+
